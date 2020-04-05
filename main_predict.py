@@ -57,15 +57,26 @@ save_plots = False
 with open(os.path.join("data", "enc_kwargs.json"), "r") as fi:
     enc_kwargs = json.load(fi)
 enc = Encoder(**enc_kwargs)
-enc.load_state_dict(torch.load(os.path.join("data", "encoder.torch"), map_location=device))
+enc.load_state_dict(
+    torch.load(
+        os.path.join("data", "encoder.torch"),
+        map_location=device
+        )
+)
 
 with open(os.path.join("data", "dec_kwargs.json"), "r") as fi:
     dec_kwargs = json.load(fi)
 dec = Decoder(**dec_kwargs)
-dec.load_state_dict(torch.load(os.path.join("data", "decoder.torch"), map_location=device))
+dec.load_state_dict(
+    torch.load(
+        os.path.join("data", "decoder.torch"),
+    map_location=device
+    )
+)
 
 scaler = joblib.load(os.path.join("data", "scaler.pkl"))
-raw_data = pd.read_csv(os.path.join("data", "nasdaq100_padding.csv"), nrows=100 if debug else None)
+raw_data = pd.read_csv(os.path.join("data", "nasdaq100_padding.csv"),
+                       nrows=100 if debug else None)
 targ_cols = ("NDX",)
 data = preprocess_data(raw_data, targ_cols, scaler)
 
